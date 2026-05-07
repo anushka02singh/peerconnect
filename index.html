@@ -687,7 +687,7 @@ footer a {
   <a href="#problem">Problem</a>
   <a href="#research">Research</a>
   <a href="#focus">Design Focus</a>
-  <a href="#screens">Prototype</a>
+  <a href="#process">Process</a><a href="#screens">Prototype</a>
   <a href="#next">Next Steps</a>
 </nav>
 
@@ -961,7 +961,7 @@ footer a {
 <div class="divider"></div>
 
 <!-- ── PROCESS ────────────────────────────────── -->
-<section class="section">
+<section class="section" id="process">
   <p class="section-eyebrow">Design Process</p>
   <h2>Following the <em>HCD process</em> start to finish</h2>
   <p>This project follows the human-centered design process — from initial research through to a polished interactive prototype. The idea originated in a previous HCI class; the design work happened over the final weeks of this HCD course.</p>
@@ -1010,66 +1010,31 @@ footer a {
   </div>
 </section>
 
-<!-- ── SCREEN SHOWCASE ─────────────────────────── -->
-<div class="screen-showcase" id="screens">
-  <div class="screen-showcase-inner">
-    <p style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;">The Prototype</p>
-    <h2>Key screens from the final design</h2>
-    <p>14 screens across the full user journey — from login through onboarding, into the home dashboard, and deep into the study hub. Fully interactive and clickable in Figma.</p>
-
-    <div class="screens-row">
-      <!-- Home Today -->
-      <div class="screen-item">
-        <div class="screen-frame">
-          <div class="mini-nav"><div class="mini-pill">Canvas</div><div class="mini-pill active">To-Do</div><div class="mini-pill">Study</div></div>
-          <div class="s-heading">Alex Johnson</div>
-          <div class="s-sub">Good morning</div>
-          <div class="s-nudge"><p>2 friends studying CS 214 tonight — tap to join →</p></div>
-          <div style="font-size:7px;color:#4A5580;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Deadlines</div>
-          <div class="s-dl"><div><div class="s-dl-name">HW 5 — Sorting Algorithms</div><div class="s-dl-course">CS 214</div></div><div class="s-dl-due" style="color:#FF6161;">Tonight</div></div>
-          <div class="s-dl"><div><div class="s-dl-name">Midterm Exam</div><div class="s-dl-course">MATH 244</div></div><div class="s-dl-due" style="color:#FFB73D;">Fri</div></div>
-          <div class="s-dl"><div><div class="s-dl-name">Lab Report 3</div><div class="s-dl-course">ECE 221</div></div><div class="s-dl-due" style="color:#34D680;">Mar 12</div></div>
-        </div>
-        <div class="screen-label">Home — Today view</div>
-      </div>
-
-      <!-- Study Hub -->
-      <div class="screen-item">
-        <div class="screen-frame">
-          <div class="mini-nav"><div class="mini-pill">Canvas</div><div class="mini-pill">To-Do</div><div class="mini-pill active">Study</div></div>
-          <div class="s-nudge" style="margin-bottom:8px;"><p>CS 214 Active Session · 2 others online →</p></div>
-          <div style="background:rgba(99,148,255,0.06);border:1px solid rgba(99,148,255,0.2);border-radius:6px;padding:7px;margin-bottom:8px;">
-            <div style="font-size:7px;font-weight:700;color:#E8ECFA;">Collaborative Study Guide</div>
-            <div style="font-size:6px;color:#8A96B8;margin-top:2px;">3 contributors · Updated 2h ago</div>
-          </div>
-          <div style="font-size:7px;color:#4A5580;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Study Tools</div>
-          <div class="s-tool-grid">
-            <div class="s-tool" style="background:rgba(99,148,255,0.08);border-color:rgba(99,148,255,0.2);"><div class="s-tool-name" style="color:#6394FF;">Flashcards</div><div class="s-tool-sub">48 cards · Active</div></div>
-            <div class="s-tool"><div class="s-tool-name">Practice Tests</div><div class="s-tool-sub">5 available</div></div>
-            <div class="s-tool"><div class="s-tool-name">Quiz Game</div><div class="s-tool-sub">Multiplayer</div></div>
-            <div class="s-tool"><div class="s-tool-name">Learn More</div><div class="s-tool-sub">Resources</div></div>
+<!-- ── FIGMA PROTOTYPE ───────────────────────── -->
+<div style="background:var(--navy); padding:80px 60px;" id="screens">
+  <div style="max-width:860px; margin:0 auto;">
+    <p style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;">Interactive Prototype</p>
+    <h2 style="font-family:'DM Serif Display',serif;font-size:clamp(28px,3.5vw,40px);color:var(--pri);line-height:1.1;margin-bottom:16px;">Try it yourself</h2>
+    <p style="font-size:15px;color:var(--sec);line-height:1.65;margin-bottom:36px;">Click through the full interactive prototype — switch between flows using the sidebar to explore Onboarding, Home Dashboard, and Study Hub.</p>
+    <a href="https://embed.figma.com/proto/c2qkM8m3z74KZGv7iIkMqI/PeerConnect_Final?node-id=70-1538&p=f&viewport=48%2C-1187%2C0.46&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=70%3A1538&show-proto-sidebar=1&page-id=0%3A1&embed-host=share" target="_blank" rel="noopener" style="text-decoration:none;">
+      <div style="border-radius:16px;border:1px solid var(--border);background:var(--card);padding:48px;display:flex;align-items:center;justify-content:space-between;gap:24px;cursor:pointer;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div>
+          <div style="font-size:11px;font-family:'DM Mono',monospace;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;">Figma Prototype</div>
+          <div style="font-size:22px;font-weight:700;color:var(--pri);margin-bottom:8px;">PeerConnect — Full Interactive Prototype</div>
+          <div style="font-size:14px;color:var(--sec);">3 flows · 14 screens · Click to open in Figma</div>
+          <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;">
+            <span style="font-size:11px;padding:5px 12px;background:rgba(99,148,255,0.1);border:1px solid rgba(99,148,255,0.25);border-radius:100px;color:var(--accent);font-weight:500;">Onboarding</span>
+            <span style="font-size:11px;padding:5px 12px;background:rgba(99,148,255,0.1);border:1px solid rgba(99,148,255,0.25);border-radius:100px;color:var(--accent);font-weight:500;">Home Dashboard</span>
+            <span style="font-size:11px;padding:5px 12px;background:rgba(99,148,255,0.1);border:1px solid rgba(99,148,255,0.25);border-radius:100px;color:var(--accent);font-weight:500;">Study Hub</span>
           </div>
         </div>
-        <div class="screen-label">Study Hub</div>
-      </div>
-
-      <!-- Collab Guide -->
-      <div class="screen-item">
-        <div class="screen-frame">
-          <div class="mini-nav"><div class="mini-pill">Canvas</div><div class="mini-pill">To-Do</div><div class="mini-pill active">Study</div></div>
-          <div style="font-size:9px;font-weight:700;color:#E8ECFA;margin-bottom:1px;">CS 214 Study Guide</div>
-          <div style="font-size:7px;color:#4A5580;margin-bottom:6px;">3 contributors · Saved just now</div>
-          <div style="height:2px;background:rgba(255,255,255,0.06);border-radius:1px;margin-bottom:8px;"><div style="width:6%;height:100%;background:#6394FF;border-radius:1px;"></div></div>
-          <div class="s-doc">
-            <div class="s-doc-title">Sorting Algorithms Overview</div>
-            <div class="s-doc-body"><strong style="color:#E8ECFA;">Merge Sort</strong><br>A divide-and-conquer algorithm. Time: O(n log n) in all cases. Space: O(n).<br><br><strong style="color:#E8ECFA;">Quick Sort</strong><br>Uses pivot to partition. Average O(n log n), worst O(n²).</div>
-            <div class="s-comment"><p>Sara R. · Should we add a visual diagram here?</p></div>
-            <div style="font-size:6px;color:#6394FF;margin-top:6px;">Alex J. is typing...</div>
-          </div>
+        <div style="flex-shrink:0;width:56px;height:56px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#0C1128" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
-        <div class="screen-label">Collaborative Guide</div>
       </div>
-    </div>
+    </a>
   </div>
 </div>
 
