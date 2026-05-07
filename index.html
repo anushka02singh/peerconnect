@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PeerConnect — Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:    #0C1128;
+  --card:    #122236;
+  --border:  #1E2E4A;
+  --accent:  #6394FF;
+  --accentD: #386BE6;
+  --pri:     #E8ECFA;
+  --sec:     #8A96B8;
+  --mut:     #4A5580;
+  --green:   #34D680;
+  --red:     #FF6161;
+  --amber:   #FFB73D;
+  --white:   #FFFFFF;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior:smooth; }
+
+body {
+  font-family:'DM Sans', sans-serif;
+  background:#F5F3EE;
+  color:#1A1A2E;
+  overflow-x:hidden;
+}
+
+/* ── HERO ─────────────────────────────────────── */
+.hero::before {
+  content:'';
+  position:absolute;
+  width:500px; height:500px;
+  background:radial-gradient(circle, rgba(99,148,255,0.07) 0%, transparent 70%);
+  top:-80px; right:-80px;
+  pointer-events:none;
+}
+.hero {
+  background:var(--navy);
+  
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:80px 60px;
+  position:relative;
+  overflow:hidden;
+}
+
+
+.hero-eyebrow {
+  font-family:'DM Mono', monospace;
+  font-size:11px;
+  letter-spacing:2px;
+  color:var(--accent);
+  text-transform:uppercase;
+  margin-bottom:24px;
+  opacity:0;
+  animation:fadeUp 0.5s ease forwards;
+}
+.hero h1 {
+  font-family:'DM Serif Display', serif;
+  font-size:clamp(40px, 5.5vw, 64px);
+  color:var(--pri);
+  line-height:1.05;
+  letter-spacing:-1px;
+  max-width:720px;
+  margin-bottom:28px;
+  animation:fadeUp 0.5s ease forwards 0.1s;
+  opacity:0;
+}
+.hero h1 em {
+  font-style:italic;
+  color:var(--accent);
+}
+.hero-sub {
+  font-size:18px;
+  color:var(--sec);
+  max-width:560px;
+  line-height:1.65;
+  margin-bottom:48px;
+  font-weight:400;
+  animation:fadeUp 0.5s ease forwards 0.2s;
+  opacity:0;
+}
+.hero-meta {
+  display:flex;
+  gap:48px;
+  flex-wrap:wrap;
+  animation:fadeUp 0.5s ease forwards 0.3s;
+  opacity:0;
+}
+.hero-meta-item label {
+  display:block;
+  font-family:'DM Mono', monospace;
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--mut);
+  margin-bottom:6px;
+}
+.hero-meta-item span {
+  font-size:14px;
+  color:var(--pri);
+  font-weight:500;
+}
+.hero-scroll {
+  position:absolute;
+  bottom:40px; left:60px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  opacity:0;
+  animation:fadeUp 0.6s ease forwards 0.4s;
+}
+.hero-scroll span {
+  font-size:11px;
+  color:var(--mut);
+  font-family:'DM Mono', monospace;
+  letter-spacing:1px;
+}
+.scroll-line {
+  width:40px; height:1px;
+  background:var(--mut);
+}
+
+/* ── MOCKUP STRIP ─────────────────────────────── */
+.mockup-strip {
+  background:var(--navy);
+  padding:0 0 80px;
+  overflow:hidden;
+}
+.mockup-inner {
+  display:flex;
+  gap:16px;
+  padding:0 60px;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.mockup-inner::-webkit-scrollbar { display:none; }
+.mockup-phone:hover { transform:translateY(-6px); }
+.mockup-phone {
+  flex-shrink:0;
+  width:180px;
+  height:320px;
+  border-radius:24px;
+  background:var(--card);
+  border:1.5px solid var(--border);
+  overflow:hidden;
+  position:relative;
+  transition:transform 0.3s ease;
+}
+
+.phone-screen {
+  width:100%; height:100%;
+  display:flex;
+  flex-direction:column;
+  padding:16px 14px;
+}
+.phone-nav {
+  display:flex; gap:4px; margin-bottom:12px;
+}
+.phone-nav-pill {
+  font-size:7px; font-weight:600;
+  padding:3px 7px;
+  background:rgba(99,148,255,0.15);
+  color:var(--accent);
+  border-radius:100px;
+}
+.phone-nav-pill.active { background:var(--accent); color:var(--navy); }
+.phone-heading { font-size:11px; font-weight:700; color:var(--pri); margin-bottom:4px; }
+.phone-sub { font-size:8px; color:var(--sec); margin-bottom:10px; }
+.phone-card {
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:8px;
+  padding:8px;
+  margin-bottom:6px;
+}
+.phone-card-title { font-size:8px; font-weight:600; color:var(--pri); }
+.phone-card-sub { font-size:7px; color:var(--sec); margin-top:2px; }
+.phone-badge {
+  display:inline-block;
+  font-size:6px; font-weight:700;
+  padding:2px 6px;
+  border-radius:100px;
+  margin-top:4px;
+}
+.badge-red { background:rgba(255,97,97,0.15); color:var(--red); }
+.badge-amber { background:rgba(255,183,61,0.15); color:var(--amber); }
+.badge-green { background:rgba(52,214,128,0.15); color:var(--green); }
+.badge-blue { background:rgba(99,148,255,0.15); color:var(--accent); }
+.phone-btn {
+  width:100%; padding:5px; background:var(--accent);
+  border-radius:6px; font-size:7px; font-weight:700;
+  color:var(--navy); text-align:center; margin-top:auto;
+}
+.phone-progress-bar { height:4px; background:rgba(255,255,255,0.08); border-radius:2px; margin:6px 0; }
+.phone-progress-fill { height:100%; border-radius:2px; background:var(--accent); }
+.phone-flash-card {
+  flex:1; background:rgba(99,148,255,0.06);
+  border:1px solid rgba(99,148,255,0.2);
+  border-radius:10px;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:12px;
+}
+.phone-flash-term { font-size:7px; color:var(--mut); letter-spacing:1px; margin-bottom:8px; }
+.phone-flash-word { font-size:16px; font-weight:800; color:var(--pri); }
+.phone-flash-hint { font-size:6px; color:var(--mut); margin-top:8px; }
+.phone-label {
+  position:absolute;
+  bottom:10px; left:0; right:0;
+  text-align:center;
+  font-size:7px; color:var(--mut);
+  font-family:'DM Mono', monospace;
+}
+
+/* ── CONTENT SECTIONS ─────────────────────────── */
+.section {
+  max-width:860px;
+  margin:0 auto;
+  padding:100px 40px;
+}
+.section + .section { padding-top:0; }
+
+.section-eyebrow {
+  font-family:'DM Mono', monospace;
+  font-size:10px;
+  letter-spacing:2px;
+  color:var(--accentD);
+  text-transform:uppercase;
+  margin-bottom:16px;
+}
+.section h2 {
+  font-family:'DM Serif Display', serif;
+  font-size:clamp(32px, 4vw, 46px);
+  line-height:1.1;
+  letter-spacing:-0.5px;
+  color:#0F0E1A;
+  margin-bottom:24px;
+}
+.section h2 em { font-style:italic; color:var(--accentD); }
+.section p {
+  font-size:17px;
+  line-height:1.75;
+  color:#3D3B52;
+  margin-bottom:20px;
+  font-weight:400;
+}
+.section p strong { color:#0F0E1A; font-weight:600; }
+
+/* ── DIVIDER ──────────────────────────────────── */
+.divider {
+  height:1px;
+  background:linear-gradient(90deg, transparent, #C8C2B4, transparent);
+  max-width:860px;
+  margin:0 auto;
+}
+
+/* ── QUOTE BLOCK ─────────────────────────────── */
+.quote-block {
+  background:var(--navy);
+  padding:60px;
+  margin:0;
+  position:relative;
+  overflow:hidden;
+}
+.quote-block::before {
+  content:'"';
+  font-family:'DM Serif Display', serif;
+  font-size:180px;
+  color:rgba(99,148,255,0.06);
+  position:absolute;
+  top:-40px; left:30px;
+  line-height:1;
+  pointer-events:none;
+}
+.quote-inner { max-width:860px; margin:0 auto; }
+.quote-text {
+  font-family:'DM Serif Display', serif;
+  font-size:clamp(22px, 3vw, 32px);
+  color:var(--pri);
+  line-height:1.5;
+  font-style:italic;
+  margin-bottom:20px;
+  position:relative;
+  z-index:1;
+}
+.quote-attr {
+  font-family:'DM Mono', monospace;
+  font-size:11px;
+  color:var(--accent);
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+/* ── HMW STATEMENT ───────────────────────────── */
+.hmw-block {
+  background:#0F0E1A;
+  border-radius:20px;
+  padding:48px;
+  margin:40px 0;
+  border-left:4px solid var(--accent);
+}
+.hmw-label {
+  font-family:'DM Mono', monospace;
+  font-size:10px;
+  letter-spacing:2px;
+  color:var(--accent);
+  text-transform:uppercase;
+  margin-bottom:16px;
+  display:block;
+}
+.hmw-text {
+  font-family:'DM Serif Display', serif;
+  font-size:clamp(20px, 2.5vw, 28px);
+  color:var(--pri);
+  line-height:1.5;
+}
+
+/* ── FEATURE FOCUS ───────────────────────────── */
+.feature-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  margin:40px 0;
+}
+.feature-card {
+  background:#0F0E1A;
+  border-radius:16px;
+  padding:36px 32px;
+  border:1px solid #1E1C35;
+  position:relative;
+  overflow:hidden;
+  transition:border-color 0.3s;
+}
+
+
+.feature-num {
+  font-family:'DM Mono', monospace;
+  font-size:10px;
+  color:var(--accent);
+  letter-spacing:2px;
+  margin-bottom:12px;
+  display:block;
+}
+.feature-card h3 {
+  font-size:20px;
+  font-weight:700;
+  color:#E8ECFA;
+  margin-bottom:10px;
+}
+.feature-card p {
+  font-size:14px;
+  color:#8A96B8;
+  line-height:1.65;
+  margin:0;
+}
+.feature-tag {
+  display:inline-block;
+  font-size:10px;
+  font-weight:600;
+  padding:4px 10px;
+  border-radius:100px;
+  background:rgba(99,148,255,0.12);
+  color:var(--accent);
+  margin-top:16px;
+  letter-spacing:0.5px;
+}
+
+/* ── COMPETITOR TABLE ────────────────────────── */
+.comp-table {
+  width:100%;
+  border-collapse:collapse;
+  margin:32px 0;
+  border-radius:12px;
+  overflow:hidden;
+  font-size:14px;
+}
+.comp-table th {
+  background:#0F0E1A;
+  color:#E8ECFA;
+  font-weight:600;
+  font-size:11px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  padding:14px 18px;
+  text-align:left;
+  border-bottom:1px solid #1E1C35;
+}
+.comp-table td {
+  padding:14px 18px;
+  border-bottom:1px solid #EDEBE5;
+  color:#3D3B52;
+  vertical-align:top;
+  line-height:1.5;
+}
+.comp-table tr:nth-child(even) td { background:#F9F7F3; }
+.comp-table tr:last-child td { border-bottom:none; }
+.comp-name { font-weight:600; color:#0F0E1A; }
+.gap-tag {
+  display:inline-block;
+  font-size:10px;
+  background:#FFF0F0;
+  color:#CC3333;
+  padding:2px 8px;
+  border-radius:100px;
+  font-weight:500;
+}
+
+/* ── PROCESS STEPS ───────────────────────────── */
+.process-steps {
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  margin:40px 0;
+  position:relative;
+}
+.process-steps::before {
+  content:'';
+  position:absolute;
+  left:22px; top:44px;
+  width:2px;
+  height:calc(100% - 88px);
+  background:linear-gradient(to bottom, var(--accentD), transparent);
+}
+.process-step {
+  display:flex;
+  gap:28px;
+  align-items:flex-start;
+  padding:24px 0;
+  position:relative;
+}
+.step-num {
+  width:44px; height:44px;
+  flex-shrink:0;
+  background:#0F0E1A;
+  border:2px solid var(--accentD);
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'DM Mono', monospace;
+  font-size:13px;
+  font-weight:500;
+  color:var(--accent);
+  position:relative;
+  z-index:1;
+}
+.step-content h4 {
+  font-size:17px;
+  font-weight:700;
+  color:#0F0E1A;
+  margin-bottom:6px;
+}
+.step-content p {
+  font-size:15px;
+  color:#3D3B52;
+  line-height:1.65;
+  margin:0;
+}
+.step-timeline {
+  font-family:'DM Mono', monospace;
+  font-size:9px;
+  color:var(--accent);
+  letter-spacing:1px;
+  text-transform:uppercase;
+  margin-bottom:6px;
+  display:block;
+}
+
+/* ── INSIGHT CARDS ───────────────────────────── */
+.insight-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:16px;
+  margin:40px 0;
+}
+.insight-card {
+  background:#0F0E1A;
+  border-radius:14px;
+  padding:28px 24px;
+  border:1px solid #1E1C35;
+}
+.insight-icon {
+  width:36px; height:36px;
+  background:rgba(99,148,255,0.1);
+  border-radius:10px;
+  margin-bottom:16px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px;
+}
+.insight-card h4 {
+  font-size:15px;
+  font-weight:700;
+  color:#E8ECFA;
+  margin-bottom:8px;
+}
+.insight-card p {
+  font-size:13px;
+  color:#8A96B8;
+  line-height:1.6;
+  margin:0;
+}
+
+/* ── SCREEN SHOWCASE ─────────────────────────── */
+.screen-showcase {
+  background:#1A1830;
+  padding:80px 60px 100px;
+}
+.screen-showcase-inner { max-width:860px; margin:0 auto; }
+.screen-showcase h2 {
+  font-family:'DM Serif Display', serif;
+  font-size:36px;
+  color:var(--pri);
+  margin-bottom:12px;
+}
+.screen-showcase p {
+  color:var(--sec);
+  font-size:15px;
+  margin-bottom:48px;
+  line-height:1.65;
+}
+.screens-row {
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:20px;
+}
+.screen-item { display:flex; flex-direction:column; gap:12px; }
+.screen-frame {
+  aspect-ratio:9/16;
+  background:var(--card);
+  border-radius:16px;
+  border:1px solid var(--border);
+  overflow:hidden;
+  padding:14px 12px;
+  display:flex;
+  flex-direction:column;
+}
+.screen-label {
+  font-family:'DM Mono', monospace;
+  font-size:9px;
+  color:var(--mut);
+  letter-spacing:1px;
+  text-transform:uppercase;
+  text-align:center;
+}
+/* mini nav for screens */
+.mini-nav {
+  display:flex; gap:3px; margin-bottom:10px;
+}
+.mini-pill {
+  font-size:6px; padding:2px 6px;
+  background:var(--elevated,#192345);
+  color:var(--sec); border-radius:100px; font-weight:600;
+}
+.mini-pill.active { background:var(--accent); color:var(--navy); }
+
+/* screen: home */
+.s-heading { font-size:13px; font-weight:800; color:var(--pri); margin-bottom:2px; }
+.s-sub { font-size:8px; color:var(--sec); margin-bottom:10px; }
+.s-nudge {
+  background:rgba(99,148,255,0.12);
+  border:1px solid rgba(99,148,255,0.25);
+  border-radius:8px; padding:8px; margin-bottom:8px;
+  border-left:3px solid var(--accent);
+}
+.s-nudge p { font-size:7px; color:var(--pri); line-height:1.4; margin:0; }
+.s-dl { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:6px; padding:6px 8px; margin-bottom:5px; display:flex; justify-content:space-between; align-items:center; }
+.s-dl-name { font-size:7px; font-weight:600; color:var(--pri); }
+.s-dl-course { font-size:6px; color:var(--sec); }
+.s-dl-due { font-size:7px; font-weight:700; }
+
+/* screen: study hub */
+.s-tool-grid { display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-top:8px; }
+.s-tool { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:8px; padding:8px; }
+.s-tool-name { font-size:7px; font-weight:700; color:var(--pri); }
+.s-tool-sub { font-size:6px; color:var(--sec); margin-top:2px; }
+
+/* screen: collab */
+.s-doc { flex:1; background:rgba(255,255,255,0.02); border-radius:8px; padding:8px; margin-top:6px; }
+.s-doc-title { font-size:9px; font-weight:700; color:var(--pri); margin-bottom:4px; }
+.s-doc-body { font-size:7px; color:var(--sec); line-height:1.5; }
+.s-comment { background:rgba(99,148,255,0.08); border:1px solid rgba(99,148,255,0.2); border-radius:6px; padding:5px 7px; margin-top:6px; }
+.s-comment p { font-size:6px; color:var(--accent); margin:0; }
+
+/* ── NEXT STEPS ──────────────────────────────── */
+.next-section { background:#F9F7F3; }
+.tag-list {
+  display:flex; flex-wrap:wrap; gap:10px; margin:28px 0;
+}
+.tag {
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:13px; padding:8px 16px;
+  background:#FFFFFF;
+  border:1px solid #D8D4CB;
+  border-radius:100px;
+  color:#3D3B52;
+  font-weight:500;
+}
+.tag span { font-size:10px; }
+
+/* ── FOOTER ──────────────────────────────────── */
+footer {
+  background:#0C1128;
+  padding:60px;
+  text-align:center;
+}
+footer p {
+  font-size:13px;
+  color:var(--mut);
+  margin-bottom:6px;
+}
+footer a {
+  color:var(--accent);
+  text-decoration:none;
+  font-weight:500;
+}
+
+/* ── JUMP NAV ────────────────────────────────── */
+.jump-nav {
+  position:sticky;
+  top:0; z-index:100;
+  background:rgba(12,17,40,0.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding:0 60px;
+  display:flex;
+  align-items:center;
+  gap:32px;
+  height:52px;
+}
+.jump-nav .logo {
+  font-family:'DM Serif Display', serif;
+  font-size:16px;
+  color:var(--accent);
+  white-space:nowrap;
+  margin-right:auto;
+  font-style:italic;
+}
+.jump-nav a {
+  font-size:12px;
+  color:var(--mut);
+  text-decoration:none;
+  font-weight:500;
+  white-space:nowrap;
+  transition:color 0.2s;
+}
+.jump-nav a:hover { color:var(--pri); }
+
+/* ── ANIMATIONS ──────────────────────────────── */
+
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ── RESPONSIVE ──────────────────────────────── */
+@media (max-width:700px) {
+  .hero { padding:60px 24px; }
+  .section { padding:60px 24px; }
+  .feature-grid { grid-template-columns:1fr; }
+  .insight-grid { grid-template-columns:1fr; }
+  .screens-row { grid-template-columns:1fr 1fr; }
+  .jump-nav { padding:0 24px; gap:16px; }
+  .jump-nav a:nth-child(n+4) { display:none; }
+  .screen-showcase { padding:60px 24px; }
+  .quote-block { padding:40px 24px; }
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<!-- ── JUMP NAV ──────────────────────────────── -->
+<nav class="jump-nav">
+  <div class="logo">PeerConnect</div>
+  <a href="#intro">Intro</a>
+  <a href="#problem">Problem</a>
+  <a href="#research">Research</a>
+  <a href="#focus">Design Focus</a>
+  <a href="#screens">Screens</a>
+  <a href="#next">Next Steps</a>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────── -->
+<section class="hero" id="intro">
+  <p class="hero-eyebrow">HCD Final Project  ·  Design Track  ·  Spring 2026</p>
+  <h1>One app for everything <em>academic</em></h1>
+  <p class="hero-sub">PeerConnect is a mobile super-app designed to replace the five or six disconnected tools Rutgers students juggle every day — starting with a smart home dashboard and a study hub that actually works.</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><label>Role</label><span>Sole UX/UI Designer</span></div>
+    <div class="hero-meta-item"><label>Platform</label><span>iOS Mobile App</span></div>
+    <div class="hero-meta-item"><label>Tools</label><span>Figma, FigJam</span></div>
+    <div class="hero-meta-item"><label>Timeline</label><span>Spring 2026</span></div>
+    <div class="hero-meta-item"><label>Focus Area</label><span>Home Dashboard + Study Hub</span></div>
+  </div>
+
+</section>
+
+<!-- ── MOCKUP STRIP ───────────────────────────── -->
+<div class="mockup-strip">
+  <div class="mockup-inner">
+
+    <!-- Login -->
+    <div class="mockup-phone">
+      <div class="phone-screen">
+        <div style="text-align:center;margin-bottom:12px">
+          <div style="width:36px;height:36px;border-radius:50%;border:2px solid #6394FF;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;background:rgba(99,148,255,0.1);">
+            <div style="width:16px;height:1px;background:#6394FF;position:relative;"><div style="position:absolute;left:7px;top:-5px;width:1px;height:10px;background:#6394FF"></div></div>
+          </div>
+          <div style="font-size:10px;font-weight:700;color:#E8ECFA;">PeerConnect</div>
+          <div style="font-size:7px;color:#4A5580;margin-top:2px;">Rutgers Student Hub</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:10px;">
+          <div style="font-size:7px;color:#4A5580;margin-bottom:4px;">USERNAME</div>
+          <div style="background:rgba(255,255,255,0.06);border-radius:4px;padding:5px 8px;font-size:7px;color:#8A96B8;margin-bottom:8px;">netid@rutgers.edu</div>
+          <div style="font-size:7px;color:#4A5580;margin-bottom:4px;">PASSWORD</div>
+          <div style="background:rgba(99,148,255,0.08);border:1px solid rgba(99,148,255,0.3);border-radius:4px;padding:5px 8px;margin-bottom:10px;">
+            <span style="font-size:8px;color:#4A5580;">●●●●●●</span>
+          </div>
+          <div style="background:#6394FF;border-radius:6px;padding:6px;text-align:center;font-size:8px;font-weight:700;color:#0C1128;">Log In</div>
+        </div>
+      </div>
+      <div class="phone-label">Login</div>
+    </div>
+
+    <!-- Home Today -->
+    <div class="mockup-phone">
+      <div class="phone-screen">
+        <div class="phone-nav">
+          <div class="phone-nav-pill">Canvas</div>
+          <div class="phone-nav-pill active">To-Do</div>
+          <div class="phone-nav-pill">Study</div>
+        </div>
+        <div class="phone-heading">Alex Johnson</div>
+        <div class="phone-sub">Good morning</div>
+        <div style="background:rgba(99,148,255,0.1);border:1px solid rgba(99,148,255,0.25);border-left:3px solid #6394FF;border-radius:6px;padding:7px;margin-bottom:8px;">
+          <div style="font-size:7px;color:#E8ECFA;font-weight:600;">2 friends studying CS 214</div>
+          <div style="font-size:6px;color:#8A96B8;margin-top:2px;">Tap to join →</div>
+        </div>
+        <div style="font-size:7px;color:#4A5580;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Deadlines</div>
+        <div class="phone-card"><div class="phone-card-title">HW 5 — Sorting Algos</div><div class="phone-card-sub">CS 214</div><div class="phone-badge badge-red">Due Tonight</div></div>
+        <div class="phone-card"><div class="phone-card-title">Midterm Exam</div><div class="phone-card-sub">MATH 244</div><div class="phone-badge badge-amber">Due Friday</div></div>
+        <div class="phone-card"><div class="phone-card-title">Lab Report 3</div><div class="phone-card-sub">ECE 221</div><div class="phone-badge badge-green">Due Mar 12</div></div>
+      </div>
+      <div class="phone-label">Home — Today</div>
+    </div>
+
+    <!-- Home Week -->
+    <div class="mockup-phone">
+      <div class="phone-screen">
+        <div class="phone-nav">
+          <div class="phone-nav-pill">Canvas</div>
+          <div class="phone-nav-pill active">To-Do</div>
+          <div class="phone-nav-pill">Study</div>
+        </div>
+        <div class="phone-heading">Mar 24 — Mar 30</div>
+        <div class="phone-sub">This Week</div>
+        <div class="phone-card">
+          <div class="phone-card-title">Weekly Study Goal</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin:4px 0;">
+            <span style="font-size:6px;color:#8A96B8;">4.5 / 8 hrs</span>
+            <span style="font-size:6px;color:#6394FF;font-weight:600;">56%</span>
+          </div>
+          <div class="phone-progress-bar"><div class="phone-progress-fill" style="width:56%"></div></div>
+        </div>
+        <div style="font-size:7px;color:#4A5580;letter-spacing:1px;text-transform:uppercase;margin:8px 0 5px;">All Deadlines</div>
+        <div style="font-size:7px;color:#6394FF;font-weight:600;margin-bottom:3px;">Today</div>
+        <div class="phone-card"><div class="phone-card-title">HW 5</div><div class="phone-badge badge-red">CS 214</div></div>
+        <div style="font-size:7px;color:#8A96B8;font-weight:600;margin:5px 0 3px;">Friday</div>
+        <div class="phone-card"><div class="phone-card-title">Midterm Exam</div><div class="phone-badge badge-red">MATH 244</div></div>
+      </div>
+      <div class="phone-label">Home — This Week</div>
+    </div>
+
+    <!-- Study Hub -->
+    <div class="mockup-phone">
+      <div class="phone-screen">
+        <div class="phone-nav">
+          <div class="phone-nav-pill">Canvas</div>
+          <div class="phone-nav-pill">To-Do</div>
+          <div class="phone-nav-pill active">Study</div>
+        </div>
+        <div style="background:rgba(99,148,255,0.08);border:1px solid rgba(99,148,255,0.25);border-left:3px solid #6394FF;border-radius:6px;padding:7px;margin-bottom:8px;">
+          <div style="font-size:7px;color:#E8ECFA;font-weight:600;">CS 214 Active Session</div>
+          <div style="font-size:6px;color:#8A96B8;">2 others online →</div>
+        </div>
+        <div class="phone-card"><div class="phone-card-title">Collaborative Study Guide</div><div class="phone-card-sub">3 contributors · 2h ago</div></div>
+        <div style="font-size:7px;color:#4A5580;letter-spacing:1px;text-transform:uppercase;margin:8px 0 5px;">Study Tools</div>
+        <div class="s-tool-grid">
+          <div class="s-tool"><div class="s-tool-name">Flashcards</div><div class="s-tool-sub">48 cards</div></div>
+          <div class="s-tool"><div class="s-tool-name">Practice Tests</div><div class="s-tool-sub">5 available</div></div>
+          <div class="s-tool"><div class="s-tool-name">Quiz Game</div><div class="s-tool-sub">Multiplayer</div></div>
+          <div class="s-tool"><div class="s-tool-name">Learn More</div><div class="s-tool-sub">Resources</div></div>
+        </div>
+      </div>
+      <div class="phone-label">Study Hub</div>
+    </div>
+
+    <!-- Flashcard -->
+    <div class="mockup-phone">
+      <div class="phone-screen">
+        <div class="phone-nav">
+          <div class="phone-nav-pill">Canvas</div>
+          <div class="phone-nav-pill">To-Do</div>
+          <div class="phone-nav-pill active">Study</div>
+        </div>
+        <div style="font-size:8px;color:#E8ECFA;font-weight:700;margin-bottom:2px;">CS 214 — Sorting</div>
+        <div style="font-size:7px;color:#4A5580;margin-bottom:8px;">Card 3 of 48</div>
+        <div class="phone-progress-bar"><div class="phone-progress-fill" style="width:6%"></div></div>
+        <div style="display:flex;gap:4px;margin:6px 0 10px;">
+          <div style="font-size:6px;padding:2px 6px;background:rgba(52,214,128,0.15);color:#34D680;border-radius:100px;">Mastered 12</div>
+          <div style="font-size:6px;padding:2px 6px;background:rgba(99,148,255,0.15);color:#6394FF;border-radius:100px;">Reviewing 28</div>
+        </div>
+        <div class="phone-flash-card">
+          <div class="phone-flash-term">TERM</div>
+          <div class="phone-flash-word">Merge Sort</div>
+          <div class="phone-flash-hint">Tap to flip →</div>
+        </div>
+        <div style="display:flex;gap:5px;margin-top:8px;">
+          <div style="flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:5px;text-align:center;font-size:7px;color:#8A96B8;">← Prev</div>
+          <div style="flex:1;background:#6394FF;border-radius:6px;padding:5px;text-align:center;font-size:7px;color:#0C1128;font-weight:700;">Next →</div>
+        </div>
+      </div>
+      <div class="phone-label">Flashcard</div>
+    </div>
+
+    <!-- Collab Guide -->
+    <div class="mockup-phone">
+      <div class="phone-screen">
+        <div class="phone-nav">
+          <div class="phone-nav-pill">Canvas</div>
+          <div class="phone-nav-pill">To-Do</div>
+          <div class="phone-nav-pill active">Study</div>
+        </div>
+        <div style="font-size:9px;font-weight:700;color:#E8ECFA;margin-bottom:2px;">CS 214 Study Guide</div>
+        <div style="font-size:7px;color:#4A5580;margin-bottom:8px;">3 contributors · Saved now</div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:8px;flex:1;">
+          <div style="font-size:9px;font-weight:700;color:#E8ECFA;margin-bottom:6px;">Sorting Algorithms</div>
+          <div style="font-size:7px;color:#8A96B8;line-height:1.5;margin-bottom:8px;"><strong style="color:#E8ECFA;">Merge Sort</strong><br>A divide-and-conquer algorithm with O(n log n) time in all cases...</div>
+          <div style="background:rgba(99,148,255,0.08);border:1px solid rgba(99,148,255,0.2);border-radius:6px;padding:5px;">
+            <div style="font-size:6px;color:#6394FF;font-weight:600;">Sara R. · Should we add a diagram?</div>
+            <div style="font-size:6px;color:#4A5580;margin-top:2px;">Reply · Resolve</div>
+          </div>
+          <div style="font-size:7px;color:#6394FF;margin-top:8px;">Alex J. is typing...</div>
+        </div>
+      </div>
+      <div class="phone-label">Collab Guide</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── PROBLEM ───────────────────────────────── -->
+<section class="section" id="problem">
+  <p class="section-eyebrow">The Problem</p>
+  <h2>Students are drowning in <em>too many tabs</em></h2>
+  <p>PeerConnect started as an idea during an undergraduate HCI class — a simple question: why do students need five different apps just to get through the week? Canvas for assignments, Google Calendar for scheduling, GroupMe for coordinating, Quizlet for studying, email for announcements. None of them talk to each other, and none of them were designed with the student experience as the primary concern.</p>
+  <p>In the final weeks of this HCD course, I took that original idea and turned it into a full high-fidelity prototype in Figma — following the human-centered design process from research through to an interactive, clickable product. <strong>The core question became: how do you give students one place to see what's due and immediately start working on it, without any friction in between?</strong></p>
+</section>
+
+<div class="quote-block">
+  <div class="quote-inner">
+    <p class="quote-text">"How might we design a mobile app that helps Rutgers students stay on top of their academic workload and actively prepare for it — all in one place, without bouncing between five different tools?"</p>
+    <p class="quote-attr">Design Statement</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── MARKET RESEARCH ────────────────────────── -->
+<section class="section" id="research">
+  <p class="section-eyebrow">Market Research</p>
+  <h2>What's already out there — and what's <em>missing</em></h2>
+  <p>Before designing anything, I looked at the tools students currently use to understand where the gaps are. The pattern was clear: every existing tool either does too little or exists in a completely separate silo.</p>
+
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>Tool</th>
+        <th>What it does</th>
+        <th>Why it's relevant</th>
+        <th>What's missing</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="comp-name">Canvas LMS</span></td>
+        <td>Assignments, grades, announcements</td>
+        <td>Same audience; academic organization</td>
+        <td><span class="gap-tag">No peer connection</span> Poor mobile UX</td>
+      </tr>
+      <tr>
+        <td><span class="comp-name">Rutgers App</span></td>
+        <td>Maps, bus, dining, basic course info</td>
+        <td>Same student audience, all-in-one concept</td>
+        <td><span class="gap-tag">No study tools</span> No Canvas sync</td>
+      </tr>
+      <tr>
+        <td><span class="comp-name">Quizlet</span></td>
+        <td>Flashcards, practice tests</td>
+        <td>Study tools overlap; same student users</td>
+        <td><span class="gap-tag">No scheduling</span> Completely siloed</td>
+      </tr>
+      <tr>
+        <td><span class="comp-name">GroupMe / Discord</span></td>
+        <td>Group messaging, community</td>
+        <td>Peer communication; study coordination</td>
+        <td><span class="gap-tag">No academic structure</span> No Canvas sync</td>
+      </tr>
+      <tr>
+        <td><span class="comp-name">Google Calendar</span></td>
+        <td>Scheduling, reminders</td>
+        <td>Overlaps with deadline tracking</td>
+        <td><span class="gap-tag">Not academic-specific</span> Students use it separately</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>The main takeaway: <strong>no single tool combines academic organization with study resources</strong>. Students have to stitch these together themselves, and that friction is the design problem PeerConnect is trying to solve.</p>
+</section>
+
+<!-- ── DESIGN FOCUS ───────────────────────────── -->
+<section class="section" id="focus">
+  <p class="section-eyebrow">Focused Scope</p>
+  <h2>Narrowing down to what <em>actually matters</em></h2>
+  <p>The original vision for PeerConnect was ambitious — peer matching, social features, notifications, Canvas integration, and more. Based on feedback, I narrowed the final project scope to two features that form a complete, meaningful user journey on their own:</p>
+
+  <div class="hmw-block">
+    <span class="hmw-label">Design Focus</span>
+    <p class="hmw-text">A smart home dashboard that shows students exactly what's due and when — connected directly to a study hub where they can take action on it.</p>
+  </div>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <span class="feature-num">01</span>
+      <h3>Home Dashboard</h3>
+      <p>The command center. Shows upcoming deadlines pulled from Canvas, a daily and weekly calendar view, and smart nudges based on what's most urgent. The core design challenge: how do you surface the most important thing without overwhelming the student?</p>
+      <span class="feature-tag">Information Hierarchy</span>
+    </div>
+    <div class="feature-card">
+      <span class="feature-num">02</span>
+      <h3>Study Hub</h3>
+      <p>The action layer. Flashcards, practice tests, a collaborative guide editor, and a quiz game mode — all tied to specific courses. The core design challenge: how do you make studying feel less like a chore inside the same app you use to check deadlines?</p>
+      <span class="feature-tag">Engagement & Motivation</span>
+    </div>
+  </div>
+
+  <p>Everything else — peer matching, friends, notifications — gets scoped to future work. This isn't shrinking the vision, it's being intentional about what gets designed well.</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── PROCESS ────────────────────────────────── -->
+<section class="section">
+  <p class="section-eyebrow">Design Process</p>
+  <h2>Following the <em>HCD process</em> start to finish</h2>
+  <p>This project follows the human-centered design process — from initial research through to a polished interactive prototype. The idea originated in a previous HCI class; the design work happened over the final weeks of this HCD course.</p>
+
+  <div class="process-steps">
+    <div class="process-step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <span class="step-timeline">Weeks 1–2</span>
+        <h4>Market Research</h4>
+        <p>Analyzed five competing tools — Canvas, Rutgers App, Quizlet, GroupMe, and Google Calendar — to map where existing solutions fall short and identify the gap PeerConnect fills.</p>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <span class="step-timeline">Weeks 3–4</span>
+        <h4>User Research</h4>
+        <p>Survey of Rutgers students focusing on current tool usage, pain points around deadline management, and how they currently study. Key finding: students want one place for everything, not another app to switch between.</p>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <span class="step-timeline">Week 5</span>
+        <h4>Synthesize & Define</h4>
+        <p>Organized research findings into themes, created two personas, and mapped a student journey from "checking what's due" to "actually studying for it" — revealing the gap between knowing and doing.</p>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <span class="step-timeline">Weeks 6–10</span>
+        <h4>Prototype</h4>
+        <p>Built a high-fidelity interactive prototype in Figma covering the full core experience — onboarding, home dashboard (Today, This Week, and Canvas views), and the complete Study Hub flow including flashcards, practice tests, and collaborative guide.</p>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <span class="step-timeline">Weeks 11–14</span>
+        <h4>Test & Iterate</h4>
+        <p>Usability testing with Rutgers students, focusing on whether the dashboard hierarchy made urgency clear and whether students could navigate between deadline awareness and active studying without friction.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SCREEN SHOWCASE ─────────────────────────── -->
+<div class="screen-showcase" id="screens">
+  <div class="screen-showcase-inner">
+    <p style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;">The Prototype</p>
+    <h2>Key screens from the final design</h2>
+    <p>14 screens across the full user journey — from login through onboarding, into the home dashboard, and deep into the study hub. Fully interactive and clickable in Figma.</p>
+
+    <div class="screens-row">
+      <!-- Home Today -->
+      <div class="screen-item">
+        <div class="screen-frame">
+          <div class="mini-nav"><div class="mini-pill">Canvas</div><div class="mini-pill active">To-Do</div><div class="mini-pill">Study</div></div>
+          <div class="s-heading">Alex Johnson</div>
+          <div class="s-sub">Good morning</div>
+          <div class="s-nudge"><p>2 friends studying CS 214 tonight — tap to join →</p></div>
+          <div style="font-size:7px;color:#4A5580;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Deadlines</div>
+          <div class="s-dl"><div><div class="s-dl-name">HW 5 — Sorting Algorithms</div><div class="s-dl-course">CS 214</div></div><div class="s-dl-due" style="color:#FF6161;">Tonight</div></div>
+          <div class="s-dl"><div><div class="s-dl-name">Midterm Exam</div><div class="s-dl-course">MATH 244</div></div><div class="s-dl-due" style="color:#FFB73D;">Fri</div></div>
+          <div class="s-dl"><div><div class="s-dl-name">Lab Report 3</div><div class="s-dl-course">ECE 221</div></div><div class="s-dl-due" style="color:#34D680;">Mar 12</div></div>
+        </div>
+        <div class="screen-label">Home — Today view</div>
+      </div>
+
+      <!-- Study Hub -->
+      <div class="screen-item">
+        <div class="screen-frame">
+          <div class="mini-nav"><div class="mini-pill">Canvas</div><div class="mini-pill">To-Do</div><div class="mini-pill active">Study</div></div>
+          <div class="s-nudge" style="margin-bottom:8px;"><p>CS 214 Active Session · 2 others online →</p></div>
+          <div style="background:rgba(99,148,255,0.06);border:1px solid rgba(99,148,255,0.2);border-radius:6px;padding:7px;margin-bottom:8px;">
+            <div style="font-size:7px;font-weight:700;color:#E8ECFA;">Collaborative Study Guide</div>
+            <div style="font-size:6px;color:#8A96B8;margin-top:2px;">3 contributors · Updated 2h ago</div>
+          </div>
+          <div style="font-size:7px;color:#4A5580;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Study Tools</div>
+          <div class="s-tool-grid">
+            <div class="s-tool" style="background:rgba(99,148,255,0.08);border-color:rgba(99,148,255,0.2);"><div class="s-tool-name" style="color:#6394FF;">Flashcards</div><div class="s-tool-sub">48 cards · Active</div></div>
+            <div class="s-tool"><div class="s-tool-name">Practice Tests</div><div class="s-tool-sub">5 available</div></div>
+            <div class="s-tool"><div class="s-tool-name">Quiz Game</div><div class="s-tool-sub">Multiplayer</div></div>
+            <div class="s-tool"><div class="s-tool-name">Learn More</div><div class="s-tool-sub">Resources</div></div>
+          </div>
+        </div>
+        <div class="screen-label">Study Hub</div>
+      </div>
+
+      <!-- Collab Guide -->
+      <div class="screen-item">
+        <div class="screen-frame">
+          <div class="mini-nav"><div class="mini-pill">Canvas</div><div class="mini-pill">To-Do</div><div class="mini-pill active">Study</div></div>
+          <div style="font-size:9px;font-weight:700;color:#E8ECFA;margin-bottom:1px;">CS 214 Study Guide</div>
+          <div style="font-size:7px;color:#4A5580;margin-bottom:6px;">3 contributors · Saved just now</div>
+          <div style="height:2px;background:rgba(255,255,255,0.06);border-radius:1px;margin-bottom:8px;"><div style="width:6%;height:100%;background:#6394FF;border-radius:1px;"></div></div>
+          <div class="s-doc">
+            <div class="s-doc-title">Sorting Algorithms Overview</div>
+            <div class="s-doc-body"><strong style="color:#E8ECFA;">Merge Sort</strong><br>A divide-and-conquer algorithm. Time: O(n log n) in all cases. Space: O(n).<br><br><strong style="color:#E8ECFA;">Quick Sort</strong><br>Uses pivot to partition. Average O(n log n), worst O(n²).</div>
+            <div class="s-comment"><p>Sara R. · Should we add a visual diagram here?</p></div>
+            <div style="font-size:6px;color:#6394FF;margin-top:6px;">Alex J. is typing...</div>
+          </div>
+        </div>
+        <div class="screen-label">Collaborative Guide</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DESIGN INSIGHTS ────────────────────────── -->
+<section class="section">
+  <p class="section-eyebrow">Key Design Decisions</p>
+  <h2>What shaped the <em>final design</em></h2>
+
+  <div class="insight-grid">
+    <div class="insight-card">
+      <div class="insight-icon">⚡</div>
+      <h4>Urgency without anxiety</h4>
+      <p>Deadline cards use color-coded urgency bars (red, amber, green) alongside text labels — never color alone. Students can scan the dashboard in under three seconds and know what needs attention.</p>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">🔗</div>
+      <h4>Dashboard → Study in one tap</h4>
+      <p>The home screen nudge card links directly to an active study session. The deadline list links directly into the Study Hub for the relevant course. The whole point is zero friction between knowing and doing.</p>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">📚</div>
+      <h4>Study tools that feel light</h4>
+      <p>Flashcards show a mastery progress strip at the top so students can see how far they've come, not just how far they have to go. Small detail — big difference in motivation.</p>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">🤝</div>
+      <h4>Collaboration built in</h4>
+      <p>The collaborative study guide isn't a separate feature — it's the first thing you see in the Study Hub. Real-time contributor avatars and an inline comment thread make it feel live, not static.</p>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">🎓</div>
+      <h4>Canvas as infrastructure</h4>
+      <p>Rather than replacing Canvas, PeerConnect treats it as infrastructure. Deadlines, grades, and course data all sync in — the student never has to re-enter information they already put in Canvas.</p>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">🌙</div>
+      <h4>Dark theme by default</h4>
+      <p>Students use apps late at night before exams. The dark navy theme isn't just aesthetic — it's a practical decision that reduces eye strain during the exact moments the app gets used most.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── NEXT STEPS ─────────────────────────────── -->
+<section class="section next-section" id="next">
+  <p class="section-eyebrow">What's Next</p>
+  <h2>Where PeerConnect goes <em>from here</em></h2>
+  <p>The two core features — home dashboard and study hub — form a complete, usable product on their own. But the original vision had more, and the foundation is designed to support it. Future work would focus on:</p>
+
+  <div class="tag-list">
+    <div class="tag"><span>🔍</span> Peer Matching by Course</div>
+    <div class="tag"><span>👥</span> Friends & Social Layer</div>
+    <div class="tag"><span>🔔</span> Unified Notifications</div>
+    <div class="tag"><span>📊</span> Grade Tracking Dashboard</div>
+    <div class="tag"><span>🎮</span> Multiplayer Quiz Mode</div>
+    <div class="tag"><span>♿</span> Accessibility Audit (WCAG AA)</div>
+    <div class="tag"><span>📱</span> Android Version</div>
+    <div class="tag"><span>🧪</span> Usability Testing Round 2</div>
+  </div>
+
+  <p>The most important next step is usability testing with real Rutgers students — not to validate the design, but to find where it breaks down. The most valuable design insights come from watching someone use something you built and seeing exactly where they get stuck.</p>
+  <p>That's the whole point of human-centered design. You're never really done.</p>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────── -->
+<footer>
+  <p style="font-size:16px;color:#E8ECFA;font-weight:600;margin-bottom:8px;">PeerConnect</p>
+  <p>HCD Final Project · Design Track · Spring 2026</p>
+  <p style="margin-top:16px;">Built in Figma · Case study by Alex Johnson</p>
+</footer>
+
+</body>
+</html>
